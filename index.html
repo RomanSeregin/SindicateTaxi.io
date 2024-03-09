@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заказ такси</title>
+</head>
+<body>
+    <h1>Заказ такси</h1>
+    <form id="taxiForm">
+        <label for="nickname">Никнейм:</label>
+        <input type="text" id="nickname" name="nickname" required><br><br>
+        <label for="pickupLocation">Место, откуда забрать:</label>
+        <input type="text" id="pickupLocation" name="pickupLocation" required><br><br>
+        <label for="destination">Место, куда отвезти:</label>
+        <input type="text" id="destination" name="destination" required><br><br>
+        <button type="submit">Заказать такси</button>
+    </form>
+
+    <script>
+        document.getElementById("taxiForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form submission
+            
+            // Получаем данные из формы
+            var nickname = document.getElementById("nickname").value;
+            var pickupLocation = document.getElementById("pickupLocation").value;
+            var destination = document.getElementById("destination").value;
+            
+            // Формируем объект с данными для передачи
+            var data = {
+                nickname: nickname,
+                pickupLocation: pickupLocation,
+                destination: destination
+            };
+
+            // Отправляем данные на сервер
+            fetch('https://your-server-url.com/api/sendToVK', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                alert('Заказ такси успешно отправлен в VK!');
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                alert('Произошла ошибка при отправке заказа в VK');
+            });
+        });
+    </script>
+</body>
+</html>
